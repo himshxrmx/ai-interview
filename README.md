@@ -30,27 +30,15 @@ The platform operates on a fully decoupled, serverless architecture:
 ## 📸 Screenshots & UI Flow
 
 ### Candidate Dashboard & Setup
-![Dashboard](docs/assets/media_1786196012854.png)
+![Dashboard](docs/assets/setup_dashboard_1786203681437.jpg)
 *The main entry point where resumes are parsed and candidate profiles are established.*
 
 ### The Interview Interface
-![Chat Interface 1](docs/assets/media_1786198159620.png)
-*The responsive, dark-themed chat interface where the technical interview takes place.*
-
-### Dynamic Follow-ups
-![Chat Interface 2](docs/assets/media_1786198185001.png)
-*The AI asking targeted follow-up questions when a candidate provides an incomplete answer.*
-
-### Real-Time Evaluation
-![Chat Interface 3](docs/assets/media_1786193012366.png)
-*Technical scenario generation specifically tailored to the candidate's extracted profile.*
-
-### Deep Probing
-![Chat Interface 4](docs/assets/media_1786193703755.png)
-*Evaluating deep cloud infrastructure concepts like AWS Auto-Scaling and GPU bottlenecks.*
+![Chat Interface](docs/assets/chat_interface_1786203694772.jpg)
+*The responsive, dark-themed chat interface where the technical interview takes place, featuring adaptive follow-up questions.*
 
 ### Final Grader Report
-![Report](docs/assets/media_1786198476633.png)
+![Report](docs/assets/final_report_1786203705751.jpg)
 *The final summary and scoring report generated at the conclusion of the interview.*
 
 ---
