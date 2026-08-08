@@ -1,0 +1,21 @@
+# AI & Cloud Backend Engineering Curriculum
+
+## Module 1: Cloud Infrastructure & Observability (AWS & Azure)
+- Compute & Storage: Provisioning and scaling AWS EC2, S3, and Azure equivalents.
+- NoSQL Databases: Designing highly available architectures using AWS DynamoDB and Cosmos DB.
+- Observability: Setting up AWS CloudWatch for real-time telemetry, log aggregation, and alert webhooks for Site Reliability Engineering (SRE).
+
+## Module 2: Advanced Backend Development
+- API Design: Building scalable, asynchronous REST APIs using Python and FastAPI.
+- Node.js Ecosystem: Developing backend services with Node.js and Express.
+- Integration: Connecting backend APIs with modern reactive frontends (React.js).
+
+## Module 3: Applied Large Language Models (LLMs)
+- Foundation Models: Working with proprietary LLMs and open-source models (Hugging Face).
+- Structured Outputs: Enforcing strict JSON schemas for LLMs to parse unstructured data (e.g., system logs, telemetry).
+- Multimodal AI: Leveraging Multimodal Vision APIs for image analysis and feature extraction.
+
+## Module 4: Applied AI Research & Benchmarking
+- Performance Analytics: Benchmarking execution latency and accuracy across different cloud architectures (AWS vs. Azure).
+- Computer Vision: Real-time Facial Expression Recognition (FER) and emotion analytics.
+- Infrastructure Deployment: End-to-end deployment of full-stack AI research applications.

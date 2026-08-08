@@ -1,0 +1,13 @@
+node_modules/
+.next/
+.env
+.env.local
+.env.development
+.env.production
+__pycache__/
+*.pyc
+.venv/
+venv/
+package/
+deployment.zip
+.DS_Store

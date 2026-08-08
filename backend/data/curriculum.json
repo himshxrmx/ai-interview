@@ -1,0 +1,192 @@
+{
+  "cohort_name": "AI Engineering Mastery — 31-Day Intensive",
+  "description": "A comprehensive 31-day cohort covering modern AI engineering, from foundational ML to production-grade agentic systems.",
+  "days": [
+    {
+      "day": 1,
+      "topic": "Python for AI Engineering",
+      "description": "Advanced Python patterns for AI: async programming, type hints, decorators, generators, and performance profiling for ML workloads.",
+      "key_concepts": ["async/await", "type annotations", "decorators", "generators", "profiling"]
+    },
+    {
+      "day": 2,
+      "topic": "Machine Learning Foundations",
+      "description": "Core ML concepts: supervised vs unsupervised learning, bias-variance tradeoff, cross-validation, and evaluation metrics.",
+      "key_concepts": ["supervised learning", "unsupervised learning", "bias-variance tradeoff", "cross-validation", "precision/recall"]
+    },
+    {
+      "day": 3,
+      "topic": "Data Preprocessing & Feature Engineering",
+      "description": "Data cleaning pipelines, handling missing data, feature scaling, encoding categorical variables, and feature selection techniques.",
+      "key_concepts": ["imputation", "normalization", "one-hot encoding", "feature selection", "dimensionality reduction"]
+    },
+    {
+      "day": 4,
+      "topic": "Deep Learning Fundamentals",
+      "description": "Neural network architectures, backpropagation, activation functions, loss functions, and optimization algorithms.",
+      "key_concepts": ["backpropagation", "activation functions", "gradient descent", "loss functions", "regularization"]
+    },
+    {
+      "day": 5,
+      "topic": "Natural Language Processing Basics",
+      "description": "Text preprocessing, tokenization, word embeddings (Word2Vec, GloVe), TF-IDF, and sentiment analysis pipelines.",
+      "key_concepts": ["tokenization", "word embeddings", "TF-IDF", "sentiment analysis", "text classification"]
+    },
+    {
+      "day": 6,
+      "topic": "Transformer Architecture Deep Dive",
+      "description": "Self-attention mechanism, multi-head attention, positional encoding, encoder-decoder architecture, and the evolution from RNNs to Transformers.",
+      "key_concepts": ["self-attention", "multi-head attention", "positional encoding", "encoder-decoder", "layer normalization"]
+    },
+    {
+      "day": 7,
+      "topic": "Large Language Models (LLMs)",
+      "description": "GPT architecture, training paradigms (pre-training, fine-tuning, RLHF), scaling laws, emergent abilities, and model evaluation.",
+      "key_concepts": ["GPT architecture", "pre-training", "RLHF", "scaling laws", "emergent abilities"]
+    },
+    {
+      "day": 8,
+      "topic": "Prompt Engineering",
+      "description": "Zero-shot, few-shot, chain-of-thought prompting, prompt templates, system prompts, and structured output generation.",
+      "key_concepts": ["zero-shot prompting", "few-shot prompting", "chain-of-thought", "system prompts", "structured outputs"]
+    },
+    {
+      "day": 9,
+      "topic": "Embeddings & Semantic Search",
+      "description": "Text embeddings, embedding models (OpenAI, Cohere, Sentence-Transformers), cosine similarity, and semantic search pipelines.",
+      "key_concepts": ["text embeddings", "cosine similarity", "semantic search", "embedding models", "dimensionality"]
+    },
+    {
+      "day": 10,
+      "topic": "Vector Databases",
+      "description": "FAISS, Pinecone, Weaviate, Chroma — indexing strategies (HNSW, IVF), metadata filtering, and hybrid search.",
+      "key_concepts": ["HNSW", "IVF indexing", "metadata filtering", "hybrid search", "vector similarity"]
+    },
+    {
+      "day": 11,
+      "topic": "Retrieval-Augmented Generation (RAG)",
+      "description": "RAG architecture, chunking strategies, retrieval pipelines, context window management, and hallucination mitigation.",
+      "key_concepts": ["chunking strategies", "retrieval pipeline", "context window", "hallucination mitigation", "reranking"]
+    },
+    {
+      "day": 12,
+      "topic": "Advanced RAG Patterns",
+      "description": "Multi-step retrieval, hypothetical document embeddings (HyDE), parent-child chunking, recursive retrieval, and evaluation (RAGAS).",
+      "key_concepts": ["HyDE", "parent-child chunking", "recursive retrieval", "RAGAS evaluation", "query transformation"]
+    },
+    {
+      "day": 13,
+      "topic": "LangChain Fundamentals",
+      "description": "Chains, prompt templates, output parsers, memory modules, and building composable LLM applications with LangChain.",
+      "key_concepts": ["chains", "prompt templates", "output parsers", "memory modules", "LCEL"]
+    },
+    {
+      "day": 14,
+      "topic": "LangChain Advanced Patterns",
+      "description": "Custom chains, tool integration, routing chains, streaming responses, and LangChain Expression Language (LCEL).",
+      "key_concepts": ["custom chains", "tool integration", "routing", "streaming", "callbacks"]
+    },
+    {
+      "day": 15,
+      "topic": "Function Calling & Tool Use",
+      "description": "OpenAI function calling, tool schemas, parallel tool use, structured extraction, and building reliable tool-using agents.",
+      "key_concepts": ["function calling", "tool schemas", "parallel execution", "structured extraction", "error handling"]
+    },
+    {
+      "day": 16,
+      "topic": "Agentic AI Fundamentals",
+      "description": "Agent architectures (ReAct, Plan-and-Execute), reasoning loops, tool selection, and agent memory patterns.",
+      "key_concepts": ["ReAct pattern", "plan-and-execute", "reasoning loops", "tool selection", "agent memory"]
+    },
+    {
+      "day": 17,
+      "topic": "Multi-Agent Systems",
+      "description": "Agent orchestration, communication protocols, supervisor patterns, debate frameworks, and CrewAI/AutoGen architectures.",
+      "key_concepts": ["agent orchestration", "supervisor pattern", "debate framework", "CrewAI", "task delegation"]
+    },
+    {
+      "day": 18,
+      "topic": "Model Context Protocol (MCP)",
+      "description": "MCP architecture, server/client implementation, resource management, tool exposure, and building MCP-compliant services.",
+      "key_concepts": ["MCP servers", "MCP clients", "resource management", "tool exposure", "protocol specification"]
+    },
+    {
+      "day": 19,
+      "topic": "Fine-Tuning LLMs",
+      "description": "LoRA, QLoRA, full fine-tuning, dataset preparation, hyperparameter selection, and evaluation of fine-tuned models.",
+      "key_concepts": ["LoRA", "QLoRA", "dataset preparation", "hyperparameter tuning", "model evaluation"]
+    },
+    {
+      "day": 20,
+      "topic": "LLM Evaluation & Benchmarking",
+      "description": "Automated evaluation metrics, human evaluation protocols, A/B testing, red-teaming, and building evaluation pipelines.",
+      "key_concepts": ["automated metrics", "human evaluation", "A/B testing", "red-teaming", "evaluation pipelines"]
+    },
+    {
+      "day": 21,
+      "topic": "Guardrails & Safety",
+      "description": "Input/output guardrails, content filtering, prompt injection defense, rate limiting, and responsible AI deployment.",
+      "key_concepts": ["input validation", "output filtering", "prompt injection", "rate limiting", "responsible AI"]
+    },
+    {
+      "day": 22,
+      "topic": "Streaming & Real-Time AI",
+      "description": "Server-Sent Events, WebSocket integration, token streaming, real-time transcription, and low-latency inference patterns.",
+      "key_concepts": ["SSE", "WebSockets", "token streaming", "real-time inference", "latency optimization"]
+    },
+    {
+      "day": 23,
+      "topic": "AI Application Architecture",
+      "description": "Microservices for AI, API gateway patterns, queue-based processing, caching strategies, and scalable inference serving.",
+      "key_concepts": ["microservices", "API gateway", "message queues", "caching", "inference serving"]
+    },
+    {
+      "day": 24,
+      "topic": "Cloud Deployment for AI",
+      "description": "AWS SageMaker, containerized deployments (Docker/ECS), serverless inference (Lambda), and GPU instance management.",
+      "key_concepts": ["SageMaker", "Docker", "ECS/EKS", "Lambda", "GPU management"]
+    },
+    {
+      "day": 25,
+      "topic": "MLOps & CI/CD for AI",
+      "description": "ML pipeline orchestration, model versioning, experiment tracking (MLflow/W&B), automated testing, and deployment pipelines.",
+      "key_concepts": ["MLflow", "Weights & Biases", "model versioning", "pipeline orchestration", "automated testing"]
+    },
+    {
+      "day": 26,
+      "topic": "Observability & Monitoring",
+      "description": "LLM observability (LangSmith, Helicone), token usage tracking, latency monitoring, error tracking, and cost optimization.",
+      "key_concepts": ["LangSmith", "token tracking", "latency monitoring", "error tracking", "cost optimization"]
+    },
+    {
+      "day": 27,
+      "topic": "Knowledge Graphs & Structured Data",
+      "description": "Graph databases (Neo4j), knowledge graph construction, entity extraction, graph-based RAG, and ontology design.",
+      "key_concepts": ["Neo4j", "knowledge graphs", "entity extraction", "graph RAG", "ontology"]
+    },
+    {
+      "day": 28,
+      "topic": "Multimodal AI",
+      "description": "Vision-language models, image generation (DALL-E, Stable Diffusion), audio processing, and multimodal RAG pipelines.",
+      "key_concepts": ["vision-language models", "image generation", "audio processing", "multimodal RAG", "CLIP"]
+    },
+    {
+      "day": 29,
+      "topic": "AI Ethics & Governance",
+      "description": "Bias detection, fairness metrics, model interpretability (SHAP, LIME), data privacy (GDPR), and AI governance frameworks.",
+      "key_concepts": ["bias detection", "fairness metrics", "SHAP", "LIME", "GDPR compliance"]
+    },
+    {
+      "day": 30,
+      "topic": "Capstone: End-to-End AI System",
+      "description": "Design and build a production-grade AI application integrating RAG, agents, evaluation, guardrails, and deployment.",
+      "key_concepts": ["system design", "integration", "production deployment", "end-to-end testing", "documentation"]
+    },
+    {
+      "day": 31,
+      "topic": "Technical Interview Preparation",
+      "description": "Mock interviews, system design for AI, behavioral questions, portfolio presentation, and career strategy for AI engineers.",
+      "key_concepts": ["system design interviews", "behavioral questions", "portfolio review", "whiteboard coding", "career strategy"]
+    }
+  ]
+}

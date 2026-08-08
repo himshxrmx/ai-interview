@@ -1,0 +1,24 @@
+# Candidate Profile: Him Sharma
+
+**Role:** Computer Science Engineering Student (2024 - 2028)
+**Institution:** ABES Engineering College - Ghaziabad, UP
+**Focus:** Backend Cloud Infrastructure and AI-assisted development.
+
+## Professional Summary
+Computer Science Engineering student specializing in backend cloud infrastructure and AI-assisted development. Proven ability to architect automated response platforms and deploy full-stack applications across AWS and Azure environments. Passionate about leveraging Large Language Models (LLMs) and computer vision algorithms to build scalable, high-impact enterprise solutions.
+
+## Relevant Coursework
+Data Structures and Algorithms, Database Management Systems, Operating Systems, Computer Networks, Cloud Computing & Infrastructure (AWS, Azure, Google Cloud).
+
+## Certifications & Awards
+- AWS Academy Graduate (Amazon Web Services)
+- Career Essentials in Gen AI (Microsoft & LinkedIn)
+- Young Professional Certification (TCS iON)
+- 5-Star Python (HackerRank)
+
+## Core Skills
+- **Web Development:** HTML, CSS, JavaScript, React.js, Node.js, Express.js
+- **Programming:** Python, C, C++, API Integration
+- **Cloud & Databases:** AWS (S3, EC2, DynamoDB), Azure Cosmos DB, Render, Netlify, SQLite
+- **Data & AI:** Large Language Models (LLMs), Multimodal Vision APIs, Hugging Face, NumPy
+- **Tools:** Git, GitHub, AntiGravity

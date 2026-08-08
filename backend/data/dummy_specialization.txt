@@ -1,0 +1,18 @@
+# Technical Specialization & Projects Context
+
+The candidate has specialized technical experience architecting full-stack AI applications and cloud infrastructure.
+
+## Project 1: CauseIQ — AI Incident Root Cause Analyzer
+**Stack:** Python, FastAPI, React, Tailwind CSS, AWS CloudWatch, LLM Integration
+- Architected an automated incident response platform for SRE teams.
+- Ingests real-time alert webhooks and dynamically queries AWS CloudWatch logs to isolate cloud infrastructure failures.
+- Engineered an AI analysis pipeline leveraging state-of-the-art LLMs.
+- Enforced strict JSON schemas to parse unstructured telemetry and identify root causes.
+- Developed a reactive frontend dashboard using React and Tailwind CSS v4, visualizing AI-generated actionable remediation steps.
+
+## Project 2: Smart Attendance System & FER Research Study
+**Stack:** Node.js, Express, Multimodal LLMs, Hugging Face, AWS (S3, EC2, DynamoDB), Azure
+- Built a full-stack smart attendance application leveraging Multimodal LLM Vision APIs to analyze facial expressions and engagement from uploaded images.
+- Deployed backend cloud infrastructure using AWS S3 for storage, EC2 for hosting, and DynamoDB for robust analytics.
+- Authored a comprehensive research study analyzing the performance of real-time Facial Expression Recognition (FER) for classroom emotion analytics.
+- Benchmarked execution latency and accuracy across varying cloud architectures (AWS vs. Azure) and foundation models (Proprietary LLMs vs. Open-Source Hugging Face).

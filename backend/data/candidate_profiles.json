@@ -1,0 +1,65 @@
+{
+  "candidate": {
+    "name": "Ayush Sharma",
+    "email": "ayush.sharma@example.com",
+    "cohort": "AI Engineering Mastery — Batch 7",
+    "enrollment_date": "2026-06-01",
+    "total_days": 31,
+    "completed_days": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 21, 22, 23, 25, 27, 28, 30],
+    "skipped_days": [14, 20, 24, 26, 29, 31],
+    "completion_rate": 0.81,
+    "learning_signals": {
+      "strong_topics": [
+        {
+          "day": 11,
+          "topic": "Retrieval-Augmented Generation (RAG)",
+          "signal": "Scored 95% on RAG architecture quiz. Built a functional multi-source RAG pipeline in the lab."
+        },
+        {
+          "day": 16,
+          "topic": "Agentic AI Fundamentals",
+          "signal": "Demonstrated deep understanding of ReAct and Plan-and-Execute patterns. Lab submission was exemplary."
+        },
+        {
+          "day": 10,
+          "topic": "Vector Databases",
+          "signal": "Successfully implemented HNSW indexing with metadata filtering. Strong grasp of similarity metrics."
+        },
+        {
+          "day": 8,
+          "topic": "Prompt Engineering",
+          "signal": "Created sophisticated chain-of-thought prompts. Showed creativity in few-shot example design."
+        },
+        {
+          "day": 6,
+          "topic": "Transformer Architecture Deep Dive",
+          "signal": "Correctly explained self-attention from scratch. Strong mathematical intuition."
+        }
+      ],
+      "weak_topics": [
+        {
+          "day": 19,
+          "topic": "Fine-Tuning LLMs",
+          "signal": "Struggled with LoRA rank selection and dataset formatting. Lab submission had configuration errors."
+        },
+        {
+          "day": 4,
+          "topic": "Deep Learning Fundamentals",
+          "signal": "Showed confusion around backpropagation chain rule. Gradient descent intuition needs reinforcement."
+        },
+        {
+          "day": 22,
+          "topic": "Streaming & Real-Time AI",
+          "signal": "Had difficulty implementing SSE correctly. WebSocket connection handling was incomplete."
+        }
+      ],
+      "engagement_metrics": {
+        "avg_lab_score": 82,
+        "discussion_participation": "high",
+        "peer_review_rating": 4.3,
+        "office_hours_attended": 12,
+        "projects_submitted": 5
+      }
+    }
+  }
+}
