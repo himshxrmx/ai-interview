@@ -16,6 +16,7 @@ load_dotenv()
 
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "google/gemma-4-26b-a4b-it:free"
+FALLBACK_MODEL = "inclusionai/ling-3.0-tiny:free"
 
 
 def _get_api_key() -> str:
@@ -56,35 +57,40 @@ async def call_llm(
         "X-Title": "AB Talks Interview Agent",
     }
 
-    payload = {
-        "model": MODEL,
-        "messages": messages,
-        "temperature": temperature,
-        "max_tokens": max_tokens,
-    }
+    models_to_try = [MODEL, FALLBACK_MODEL]
 
-    if response_format:
-        payload["response_format"] = response_format
+    for model in models_to_try:
+        payload = {
+            "model": model,
+            "messages": messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
 
-    async with httpx.AsyncClient(timeout=60.0) as client:
-        for attempt in range(4):
-            try:
-                response = await client.post(
-                    OPENROUTER_API_URL,
-                    headers=headers,
-                    json=payload,
-                )
-                response.raise_for_status()
-                break
-            except httpx.HTTPStatusError as e:
-                if e.response.status_code == 429 and attempt < 3:
-                    await asyncio.sleep(2 ** attempt)
-                    continue
-                raise
+        if response_format:
+            payload["response_format"] = response_format
 
-    data = response.json()
-    content = data.get("choices", [{}])[0].get("message", {}).get("content")
-    return content if content is not None else ""
+        async with httpx.AsyncClient(timeout=25.0) as client:
+            for attempt in range(3):
+                try:
+                    response = await client.post(
+                        OPENROUTER_API_URL,
+                        headers=headers,
+                        json=payload,
+                    )
+                    response.raise_for_status()
+                    data = response.json()
+                    content = data.get("choices", [{}])[0].get("message", {}).get("content")
+                    return content if content is not None else ""
+                except httpx.HTTPStatusError as e:
+                    if e.response.status_code == 429 and attempt < 2:
+                        await asyncio.sleep(2 ** attempt)
+                        continue
+                    break  # try fallback model
+                except (httpx.ReadTimeout, httpx.ConnectTimeout):
+                    break  # try fallback model
+
+    return ""
 
 
 # ─── Domain-Specific LLM Functions ─────────────────────────────────────────────

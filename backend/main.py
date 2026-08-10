@@ -379,17 +379,33 @@ async def chat(request: ChatRequest):
                 ai_message="Thank you for completing the interview. Your evaluation report is ready.",
                 question_count=session.question_count,
                 is_complete=True,
-                grader_report=grader,
+                grader_payload=grader,
             )
 
         # ── Generate Next Question ──────────────────────────────────────────
-        
+
+        # Extract previous topics from transcript to avoid repetition
+        previous_topics = []
+        for entry in session.transcript:
+            meta = entry.get("metadata", {})
+            if meta.get("type") in ("question", "followup"):
+                topic_text = entry.get("content", "")[:80]
+                if topic_text and topic_text not in previous_topics:
+                    previous_topics.append(topic_text)
+
+        # Build recent conversation context (last 4 entries)
+        recent_entries = session.transcript[-4:]
+        recent_history = "\n".join(
+            f"{e['role'].upper()}: {e['content'][:200]}" for e in recent_entries
+        )
+
         next_question = await generate_question(
             curriculum_text=candidate_data.get("curriculum", ""),
             profile_text=candidate_data.get("profile", ""),
             specialization_text=candidate_data.get("specialization", ""),
             question_number=new_question_count,
-            recent_history=request.user_message,
+            previous_topics=previous_topics,
+            recent_history=recent_history,
         )
 
         session.transcript.append({
