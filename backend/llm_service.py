@@ -15,10 +15,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-MODEL = "nvidia/nemotron-nano-9b-v2:free"
+MODEL = "google/gemma-4-26b-a4b-it:free"
 FALLBACK_MODELS = [
-    "poolside/laguna-xs-2.1:free",
-    "google/gemma-4-26b-a4b-it:free",
+    "google/gemma-4-31b-it:free",
+    "nvidia/nemotron-3-nano-30b-a3b:free",
     "openrouter/free"
 ]
 
@@ -39,6 +39,7 @@ async def call_llm(
     temperature: float = 0.7,
     max_tokens: int = 1024,
     response_format: dict | None = None,
+    model_override: str | None = None,
 ) -> str:
     """
     Make an async call to the OpenRouter API.
@@ -48,6 +49,7 @@ async def call_llm(
         temperature: Sampling temperature (0.0–1.0).
         max_tokens: Maximum tokens in the response.
         response_format: Optional JSON schema for structured output.
+        model_override: Specific model to use, ignoring fallbacks.
 
     Returns:
         The assistant's response content as a string.
@@ -61,7 +63,7 @@ async def call_llm(
         "X-Title": "AB Talks Interview Agent",
     }
 
-    models_to_try = [MODEL] + FALLBACK_MODELS
+    models_to_try = [model_override] if model_override else [MODEL] + FALLBACK_MODELS
 
     for model in models_to_try:
         payload = {
@@ -120,10 +122,9 @@ async def extract_candidate_summary(profile_text: str, specialization_text: str)
             "content": (
                 f"**Resume/Profile:**\n{profile_text}\n\n"
                 f"**Projects/Specialization:**\n{specialization_text}\n\n"
-                "Extract the candidate's ACTUAL REAL NAME from the top of the resume. DO NOT literally output the word 'Candidate' unless the resume is completely blank. "
-                "Also extract their current role or school (as 'cohort'), "
+                "Extract the candidate's name, their current role or school (as 'cohort'), "
                 "a list of up to 4 'strong_topics' they are good at, and a list of up to 2 'weak_topics' "
-                "(or areas for growth).\n"
+                "(or areas for growth). If name is unknown, use 'Candidate'.\n"
                 "Return valid JSON exactly matching this schema:\n"
                 '{"name": "...", "cohort": "...", "strong_topics": ["...", "..."], "weak_topics": ["..."]}'
             )
@@ -134,28 +135,11 @@ async def extract_candidate_summary(profile_text: str, specialization_text: str)
 
     try:
         result = json.loads(cleaned)
-        
-        name = result.get("name")
-        if not name or name.strip() == "" or name.lower() == "null" or name == "...":
-            name = "Candidate"
-            
-        cohort = result.get("cohort")
-        if not cohort or cohort.strip() == "" or cohort.lower() == "null" or cohort == "...":
-            cohort = "Custom Upload"
-            
-        strong = result.get("strong_topics")
-        if not strong or not isinstance(strong, list) or strong == ["..."] or strong == ["...", "..."]:
-            strong = ["Technical Skills"]
-            
-        weak = result.get("weak_topics")
-        if not weak or not isinstance(weak, list) or weak == ["..."]:
-            weak = ["To be assessed"]
-
         return {
-            "name": name,
-            "cohort": cohort,
-            "strong_topics": strong,
-            "weak_topics": weak
+            "name": result.get("name", "Candidate"),
+            "cohort": result.get("cohort", "Custom Upload"),
+            "strong_topics": result.get("strong_topics", ["Technical Skills"]),
+            "weak_topics": result.get("weak_topics", ["To be assessed"])
         }
     except json.JSONDecodeError:
         return {
@@ -353,7 +337,12 @@ async def generate_final_report(transcript: list[dict], target_topics: list[str]
         },
     ]
 
-    response = await call_llm(messages, temperature=0.3, max_tokens=600)
+    response = await call_llm(
+        messages, 
+        temperature=0.3, 
+        max_tokens=600,
+        model_override="nvidia/nemotron-nano-9b-v2:free"
+    )
     cleaned = _extract_json(response.strip())
 
     try:
