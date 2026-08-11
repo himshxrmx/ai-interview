@@ -94,7 +94,7 @@ async def call_llm(
                 except (httpx.ReadTimeout, httpx.ConnectTimeout):
                     break  # try next model
 
-    return ""
+    return "I'm sorry, but my AI provider (OpenRouter) has reached its daily free-tier rate limit (or the models are unavailable). Please add credits to your OpenRouter account or try again tomorrow."
 
 
 # ─── Domain-Specific LLM Functions ─────────────────────────────────────────────
