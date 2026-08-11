@@ -2,7 +2,7 @@
  * API client for the AI Interview Agent backend.
  */
 
-const API_BASE = "https://sdxm7z4eiwxlhzuwxungshg6pq0mvjfi.lambda-url.us-east-1.on.aws";
+const API_BASE = "https://9u9k9ilpvg.execute-api.us-east-1.amazonaws.com";
 
 /**
  * Upload candidate data (curriculum, profile, specialization) either as text or files.
