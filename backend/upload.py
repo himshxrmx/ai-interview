@@ -14,8 +14,8 @@ print("Uploading to Lambda...")
 client = boto3.client(
     'lambda', 
     region_name='us-east-1',
-    # Ensure you have your AWS credentials configured in ~/.aws/credentials
-    # or as environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
 )
 
 with open('deployment.zip', 'rb') as f:
@@ -26,7 +26,15 @@ try:
         FunctionName='abtalks-api',
         ZipFile=zip_bytes
     )
-    print("SUCCESS", response['CodeSize'])
+    print("Code uploaded.", response['CodeSize'])
+    
+    # Increase timeout and memory for slower fallback LLMs
+    client.update_function_configuration(
+        FunctionName='abtalks-api',
+        Timeout=180,
+        MemorySize=512
+    )
+    print("SUCCESS: Timeout increased to 180s")
 except Exception as e:
     print("ERROR", str(e))
     sys.exit(1)

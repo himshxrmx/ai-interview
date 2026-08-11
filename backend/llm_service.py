@@ -16,7 +16,11 @@ load_dotenv()
 
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "google/gemma-4-26b-a4b-it:free"
-FALLBACK_MODEL = "inclusionai/ling-3.0-tiny:free"
+FALLBACK_MODELS = [
+    "meta-llama/llama-3-8b-instruct:free",
+    "mistralai/mistral-7b-instruct:free",
+    "inclusionai/ling-3.0-tiny:free"
+]
 
 
 def _get_api_key() -> str:
@@ -57,7 +61,7 @@ async def call_llm(
         "X-Title": "AB Talks Interview Agent",
     }
 
-    models_to_try = [MODEL, FALLBACK_MODEL]
+    models_to_try = [MODEL] + FALLBACK_MODELS
 
     for model in models_to_try:
         payload = {
@@ -70,8 +74,8 @@ async def call_llm(
         if response_format:
             payload["response_format"] = response_format
 
-        async with httpx.AsyncClient(timeout=25.0) as client:
-            for attempt in range(3):
+        async with httpx.AsyncClient(timeout=45.0) as client:
+            for attempt in range(2): # Reduce to 2 attempts to fail over faster
                 try:
                     response = await client.post(
                         OPENROUTER_API_URL,
@@ -83,12 +87,12 @@ async def call_llm(
                     content = data.get("choices", [{}])[0].get("message", {}).get("content")
                     return content if content is not None else ""
                 except httpx.HTTPStatusError as e:
-                    if e.response.status_code == 429 and attempt < 2:
-                        await asyncio.sleep(2 ** attempt)
+                    if e.response.status_code == 429 and attempt < 1:
+                        await asyncio.sleep(2)
                         continue
-                    break  # try fallback model
+                    break  # try next model
                 except (httpx.ReadTimeout, httpx.ConnectTimeout):
-                    break  # try fallback model
+                    break  # try next model
 
     return ""
 
