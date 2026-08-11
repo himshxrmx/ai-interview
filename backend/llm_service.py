@@ -15,10 +15,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-MODEL = "google/gemma-4-26b-a4b-it:free"
+MODEL = "nvidia/nemotron-nano-9b-v2:free"
 FALLBACK_MODELS = [
-    "google/gemma-4-31b-it:free",
-    "nvidia/nemotron-3-nano-30b-a3b:free",
+    "poolside/laguna-xs-2.1:free",
+    "google/gemma-4-26b-a4b-it:free",
     "openrouter/free"
 ]
 
@@ -335,7 +335,7 @@ async def generate_final_report(transcript: list[dict], target_topics: list[str]
         },
     ]
 
-    response = await call_llm(messages, temperature=0.3, max_tokens=2000)
+    response = await call_llm(messages, temperature=0.3, max_tokens=600)
     cleaned = _extract_json(response.strip())
 
     try:
