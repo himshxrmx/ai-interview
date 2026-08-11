@@ -160,8 +160,15 @@ async def extract_candidate_summary(profile_text: str, specialization_text: str)
             )
         }
     ]
-    response = await call_llm(messages, temperature=0.1, max_tokens=300)
+    response = await call_llm(
+        messages, 
+        temperature=0.1, 
+        max_tokens=300,
+        response_format={"type": "json_object"}
+    )
     cleaned = _extract_json(response.strip())
+    print("EXTRACTED SUMMARY LLM OUTPUT:", repr(response))
+    print("EXTRACTED SUMMARY CLEANED:", repr(cleaned))
 
     try:
         result = json.loads(cleaned)
@@ -266,7 +273,12 @@ async def evaluate_answer(
         },
     ]
 
-    response = await call_llm(messages, temperature=0.2, max_tokens=300)
+    response = await call_llm(
+        messages, 
+        temperature=0.2, 
+        max_tokens=300,
+        response_format={"type": "json_object"}
+    )
     cleaned = _extract_json(response.strip())
 
     try:
@@ -371,7 +383,8 @@ async def generate_final_report(transcript: list[dict], target_topics: list[str]
         messages, 
         temperature=0.3, 
         max_tokens=600,
-        model_override="nvidia/nemotron-nano-9b-v2:free"
+        model_override="nvidia/nemotron-nano-9b-v2:free",
+        response_format={"type": "json_object"}
     )
     cleaned = _extract_json(response.strip())
 
