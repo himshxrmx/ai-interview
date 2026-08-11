@@ -299,6 +299,26 @@ async def chat(request: ChatRequest):
         "metadata": {"type": "answer"},
     })
 
+    # ── Early Termination ───────────────────────────────────────────────────
+    if request.user_message.strip().upper() == "END":
+        report = await generate_final_report(
+            transcript=session.transcript,
+            target_topics=["Dynamic Assessment"],
+        )
+        grader = GraderPayload(**report)
+        update_session(session.session_id, {
+            "transcript": session.transcript,
+            "question_count": session.question_count,
+            "is_complete": True,
+        })
+        return ChatResponse(
+            session_id=session.session_id,
+            ai_message="Session ended early by user. Your evaluation report is ready.",
+            question_count=session.question_count,
+            is_complete=True,
+            grader_payload=grader,
+        )
+
     # ── The Invisible Evaluator ─────────────────────────────────────────────
     # Find the last question in the transcript
     last_question = ""
