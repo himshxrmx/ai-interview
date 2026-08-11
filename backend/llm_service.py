@@ -17,9 +17,9 @@ load_dotenv()
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "google/gemma-4-26b-a4b-it:free"
 FALLBACK_MODELS = [
-    "meta-llama/llama-3-8b-instruct:free",
-    "mistralai/mistral-7b-instruct:free",
-    "inclusionai/ling-3.0-tiny:free"
+    "google/gemma-4-31b-it:free",
+    "nvidia/nemotron-3-nano-30b-a3b:free",
+    "openrouter/free"
 ]
 
 
