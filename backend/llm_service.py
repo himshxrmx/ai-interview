@@ -120,9 +120,10 @@ async def extract_candidate_summary(profile_text: str, specialization_text: str)
             "content": (
                 f"**Resume/Profile:**\n{profile_text}\n\n"
                 f"**Projects/Specialization:**\n{specialization_text}\n\n"
-                "Extract the candidate's name, their current role or school (as 'cohort'), "
+                "Extract the candidate's ACTUAL REAL NAME from the top of the resume. DO NOT literally output the word 'Candidate' unless the resume is completely blank. "
+                "Also extract their current role or school (as 'cohort'), "
                 "a list of up to 4 'strong_topics' they are good at, and a list of up to 2 'weak_topics' "
-                "(or areas for growth). If name is unknown, use 'Candidate'.\n"
+                "(or areas for growth).\n"
                 "Return valid JSON exactly matching this schema:\n"
                 '{"name": "...", "cohort": "...", "strong_topics": ["...", "..."], "weak_topics": ["..."]}'
             )
