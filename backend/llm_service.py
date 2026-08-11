@@ -133,11 +133,28 @@ async def extract_candidate_summary(profile_text: str, specialization_text: str)
 
     try:
         result = json.loads(cleaned)
+        
+        name = result.get("name")
+        if not name or name.strip() == "" or name.lower() == "null" or name == "...":
+            name = "Candidate"
+            
+        cohort = result.get("cohort")
+        if not cohort or cohort.strip() == "" or cohort.lower() == "null" or cohort == "...":
+            cohort = "Custom Upload"
+            
+        strong = result.get("strong_topics")
+        if not strong or not isinstance(strong, list) or strong == ["..."] or strong == ["...", "..."]:
+            strong = ["Technical Skills"]
+            
+        weak = result.get("weak_topics")
+        if not weak or not isinstance(weak, list) or weak == ["..."]:
+            weak = ["To be assessed"]
+
         return {
-            "name": result.get("name", "Candidate"),
-            "cohort": result.get("cohort", "Custom Upload"),
-            "strong_topics": result.get("strong_topics", ["Technical Skills"]),
-            "weak_topics": result.get("weak_topics", ["To be assessed"])
+            "name": name,
+            "cohort": cohort,
+            "strong_topics": strong,
+            "weak_topics": weak
         }
     except json.JSONDecodeError:
         return {
