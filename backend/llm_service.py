@@ -96,6 +96,36 @@ async def call_llm(
                 except (httpx.ReadTimeout, httpx.ConnectTimeout):
                     break  # try next model
 
+    # Fallback to Groq if all OpenRouter models fail
+    groq_key = os.getenv("GROQ_API_KEY")
+    if groq_key:
+        groq_headers = {
+            "Authorization": f"Bearer {groq_key}",
+            "Content-Type": "application/json",
+        }
+        groq_payload = {
+            "model": "llama-3.1-8b-instant",
+            "messages": messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
+        if response_format:
+            groq_payload["response_format"] = response_format
+            
+        async with httpx.AsyncClient(timeout=45.0) as client:
+            try:
+                response = await client.post(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    headers=groq_headers,
+                    json=groq_payload,
+                )
+                response.raise_for_status()
+                data = response.json()
+                content = data.get("choices", [{}])[0].get("message", {}).get("content")
+                return content if content is not None else ""
+            except Exception:
+                pass
+
     return "I'm sorry, but my AI provider (OpenRouter) has reached its daily free-tier rate limit (or the models are unavailable). Please add credits to your OpenRouter account or try again tomorrow."
 
 
