@@ -2,7 +2,7 @@
  * API client for the AI Interview Agent backend.
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "YOUR_AWS_API_GATEWAY_URL";
+const API_BASE = "https://sdxm7z4eiwxlhzuwxungshg6pq0mvjfi.lambda-url.us-east-1.on.aws";
 
 /**
  * Upload candidate data (curriculum, profile, specialization) either as text or files.
