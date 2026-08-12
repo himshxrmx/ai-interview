@@ -2,7 +2,13 @@
  * API client for the AI Interview Agent backend.
  */
 
-const API_BASE = "https://9u9k9ilpvg.execute-api.us-east-1.amazonaws.com";
+// API Gateway (abtalks-api-gateway) rather than the Lambda Function URL: the
+// Function URL returns 403 to unauthenticated callers even though its AuthType
+// is NONE and the public invoke policy is present. This endpoint is the one
+// deploy.ps1 provisions and is verified reachable with correct CORS headers.
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE ??
+  "https://9u9k9ilpvg.execute-api.us-east-1.amazonaws.com";
 
 /**
  * Upload candidate data (curriculum, profile, specialization) either as text or files.

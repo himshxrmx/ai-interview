@@ -1,6 +1,12 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  # next.config.mjs sets `output: "export"`, so the build emits a plain static
+  # site into `out/` rather than a server bundle in `.next`. Every route is
+  # client-rendered and calls the Lambda API directly, so there is no server
+  # runtime to lose — and the same `out/` can be drag-and-dropped into Netlify
+  # without a git build (see NETLIFY-UPLOAD.md at the repo root).
+  publish = "out"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+# @netlify/plugin-nextjs is deliberately not used: it exists to host Next's
+# server runtime, which a static export does not produce. Re-adding it while
+# `output: "export"` is set will break the build.
