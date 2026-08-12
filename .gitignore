@@ -11,3 +11,10 @@ venv/
 package/
 deployment.zip
 .DS_Store
+
+# Static export output and the drag-and-drop upload copy
+out/
+netlify-deploy/
+
+# Transient deploy artifact written by deploy.ps1
+env-config.json

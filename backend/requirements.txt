@@ -6,3 +6,5 @@ python-dotenv==1.0.1
 PyPDF2==3.0.1
 python-multipart==0.0.12
 mangum
+# Provided by the Lambda runtime; listed for local dev and stripped at package time.
+boto3==1.35.0

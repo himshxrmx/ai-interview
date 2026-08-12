@@ -30,8 +30,28 @@ if (Test-Path package) { Remove-Item -Recurse -Force package }
 if (Test-Path deployment.zip) { Remove-Item -Force deployment.zip }
 New-Item -ItemType Directory -Path package | Out-Null
 
-pip install -r requirements.txt -t package/ | Out-Null
-Copy-Item main.py, models.py, database.py, llm_service.py, .env package/
+# Target the Lambda runtime explicitly. A bare `pip install -t` resolves wheels
+# for THIS machine — on Windows that yields a win_amd64/cp313 pydantic_core and
+# the function dies on import. --platform requires --only-binary=:all:.
+pip install -r requirements.txt -t package/ `
+    --platform manylinux2014_x86_64 `
+    --python-version 3.11 `
+    --only-binary=:all: `
+    --upgrade | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: dependency install failed — not packaging a broken bundle."
+    exit 1
+}
+
+# The Lambda runtime already ships boto3/botocore — bundling them adds ~50MB
+# and risks blowing the direct-upload limit.
+Get-ChildItem package -Directory |
+    Where-Object { $_.Name -match '^(boto3|botocore|s3transfer)' } |
+    Remove-Item -Recurse -Force
+
+# NOTE: .env is deliberately NOT copied. Secrets are set as Lambda environment
+# variables in step 5 so they never live inside the deployment artifact.
+Copy-Item main.py, models.py, database.py, llm_service.py package/
 
 Write-Host "Zipping deployment package..."
 Compress-Archive -Path package\* -DestinationPath deployment.zip
@@ -58,7 +78,33 @@ if ($FunctionExists) {
 Write-Host "Waiting for Lambda function to become active..."
 aws lambda wait function-active-v2 --function-name $LambdaName
 
-Write-Host "4. Setting up API Gateway..."
+Write-Host "4. Setting function configuration and secrets..."
+$EnvVars = @{}
+if (Test-Path .env) {
+    Get-Content .env | ForEach-Object {
+        if ($_ -match '^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$') {
+            $VarName = $Matches[1]
+            $VarValue = $Matches[2].Trim()
+            if ($VarValue) { $EnvVars[$VarName] = $VarValue }
+        }
+    }
+}
+if (-not $EnvVars.ContainsKey("OPENROUTER_API_KEY")) {
+    Write-Host "ERROR: OPENROUTER_API_KEY not found in .env — the deployed function would have no key."
+    exit 1
+}
+$EnvJson = @{ Variables = $EnvVars } | ConvertTo-Json -Compress
+[IO.File]::WriteAllText("$PWD\env-config.json", $EnvJson)
+aws lambda update-function-configuration `
+    --function-name $LambdaName `
+    --timeout 180 `
+    --memory-size 512 `
+    --environment file://env-config.json | Out-Null
+Remove-Item env-config.json -Force
+aws lambda wait function-updated-v2 --function-name $LambdaName
+Write-Host "Configuration applied ($($EnvVars.Keys -join ', '))."
+
+Write-Host "5. Setting up API Gateway..."
 $ErrorActionPreference = "Continue"
 $ApiId = aws apigatewayv2 get-apis --query "Items[?Name=='$ApiName'].ApiId | [0]" --output text
 $ErrorActionPreference = "Stop"
