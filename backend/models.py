@@ -21,14 +21,6 @@ class SessionState(BaseModel):
         default=0,
         description="Number of distinct questions asked so far (max 8)"
     )
-    target_days: list[int] = Field(
-        default_factory=list,
-        description="List of 4 curriculum day numbers selected for this interview"
-    )
-    current_day_index: int = Field(
-        default=0,
-        description="Index into target_days indicating which day is currently active"
-    )
     is_followup: bool = Field(
         default=False,
         description="Whether the last question was a follow-up probe"

@@ -6,11 +6,10 @@ Endpoints:
     POST /chat   — Handle a chat turn with evaluation and branching
 """
 
-import json
+import io
 import uuid
-import random
-from pathlib import Path
 
+import PyPDF2
 from fastapi import FastAPI, HTTPException, File, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
@@ -56,81 +55,6 @@ app.add_middleware(
 # AWS Lambda Adapter
 handler = Mangum(app)
 
-# ─── Data Loading ───────────────────────────────────────────────────────────────
-
-DATA_DIR = Path(__file__).parent / "data"
-
-
-def load_curriculum() -> dict:
-    """Load the curriculum JSON file."""
-    with open(DATA_DIR / "curriculum.json", "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def load_candidate_profile() -> dict:
-    """Load the candidate profiles JSON file."""
-    with open(DATA_DIR / "candidate_profiles.json", "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def get_day_info(curriculum: dict, day_number: int) -> dict:
-    """Look up a specific day from the curriculum."""
-    for day in curriculum["days"]:
-        if day["day"] == day_number:
-            return day
-    raise ValueError(f"Day {day_number} not found in curriculum")
-
-
-def build_candidate_context(profile: dict) -> str:
-    """Build a text summary of the candidate for LLM context."""
-    candidate = profile["candidate"]
-    signals = candidate["learning_signals"]
-
-    strong = ", ".join(
-        [s["topic"] for s in signals.get("strong_topics", [])]
-    )
-    weak = ", ".join(
-        [w["topic"] for w in signals.get("weak_topics", [])]
-    )
-
-    return (
-        f"Candidate: {candidate['name']}\n"
-        f"Cohort: {candidate['cohort']}\n"
-        f"Completion Rate: {candidate['completion_rate'] * 100:.0f}%\n"
-        f"Completed {len(candidate['completed_days'])} of {candidate['total_days']} days\n"
-        f"Strong Topics: {strong}\n"
-        f"Weak Topics: {weak}\n"
-        f"Avg Lab Score: {signals['engagement_metrics']['avg_lab_score']}\n"
-        f"Peer Review Rating: {signals['engagement_metrics']['peer_review_rating']}/5"
-    )
-
-
-def build_profile_summary(profile: dict, target_days: list[int], curriculum: dict) -> dict:
-    """Build a profile summary dict for the frontend dashboard."""
-    candidate = profile["candidate"]
-    signals = candidate["learning_signals"]
-
-    target_topics = []
-    for day_num in target_days:
-        day_info = get_day_info(curriculum, day_num)
-        target_topics.append({
-            "day": day_num,
-            "topic": day_info["topic"],
-        })
-
-    return {
-        "name": candidate["name"],
-        "cohort": candidate["cohort"],
-        "completion_rate": candidate["completion_rate"],
-        "completed_days": len(candidate["completed_days"]),
-        "total_days": candidate["total_days"],
-        "strong_topics": [s["topic"] for s in signals.get("strong_topics", [])],
-        "weak_topics": [w["topic"] for w in signals.get("weak_topics", [])],
-        "target_topics": target_topics,
-        "engagement": signals["engagement_metrics"],
-    }
-
-
 # ─── Endpoints ──────────────────────────────────────────────────────────────────
 
 
@@ -142,9 +66,6 @@ async def root():
 
 async def extract_text(file: UploadFile) -> str:
     """Helper to extract text from an uploaded file (PDF or TXT)."""
-    import io
-    import PyPDF2
-    
     if not file:
         return ""
     content = await file.read()
@@ -248,8 +169,6 @@ async def start_interview(request: StartRequest):
         candidate_id=candidate_id,
         transcript=initial_transcript,
         question_count=1,
-        target_days=[1, 2, 3, 4],
-        current_day_index=0,
         is_followup=False,
         is_complete=False,
         profile_summary=profile_summary,
@@ -387,7 +306,9 @@ async def chat(request: ChatRequest):
 
             grader = GraderPayload(**report)
 
-            # Mark session complete
+            # question_count tracks questions *asked*, and the count that
+            # tripped this branch belongs to a question we never ask — so the
+            # session closes at the last question actually put to the candidate.
             update_session(session.session_id, {
                 "transcript": session.transcript,
                 "question_count": session.question_count,

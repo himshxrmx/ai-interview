@@ -94,42 +94,6 @@ def get_session(session_id: str) -> Optional[SessionState]:
     return SessionState(**item)
 
 
-def update_transcript(session_id: str, transcript: list[dict]) -> None:
-    """
-    Replace the full transcript for a session.
-
-    Args:
-        session_id: The unique session identifier.
-        transcript: The updated transcript list.
-    """
-    table = _get_table()
-    table.update_item(
-        Key={"session_id": session_id},
-        UpdateExpression="SET transcript = :t",
-        ExpressionAttributeValues={":t": transcript},
-    )
-
-
-def increment_question_count(session_id: str) -> int:
-    """
-    Atomically increment the question_count for a session.
-
-    Args:
-        session_id: The unique session identifier.
-
-    Returns:
-        The new question_count value after incrementing.
-    """
-    table = _get_table()
-    response = table.update_item(
-        Key={"session_id": session_id},
-        UpdateExpression="SET question_count = question_count + :inc",
-        ExpressionAttributeValues={":inc": 1},
-        ReturnValues="UPDATED_NEW",
-    )
-    return int(response["Attributes"]["question_count"])
-
-
 def update_session(session_id: str, updates: dict) -> None:
     """
     Update arbitrary fields on a session.
